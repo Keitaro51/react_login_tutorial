@@ -4,7 +4,7 @@ import axios from './api/axios'
 const LOGIN_URL = '/auth'
 
 const Login = () => {
-  const {setAuth} = useContext(AuthContext)
+  const {auth, setAuth} = useContext(AuthContext)
 
   const userRef = useRef()
   const errRef = useRef()
@@ -29,22 +29,24 @@ const Login = () => {
       const res = await axios.post(LOGIN_URL, JSON.stringify({user, pwd}), {
         headers: {'Content-Type': 'application/json'},
         withCredentials: true,
+        body: JSON.stringify({user, pwd}),
       })
-      console.log(JSON.stringify(res?.data))
+      //console.log(JSON.stringify(res?.data))
 
+      const loggedUser = res?.data?.user
       const accessToken = res?.data?.accessToken
-      const roles = res?.data?.role
+      const role = res?.data?.role
 
-      setAuth({user, pwd, roles, accessToken})
+      setAuth({loggedUser, role, accessToken})
       setUser('')
       setPwd('')
       setSuccess(true)
     } catch (err) {
-      if (!err?.res) {
+      if (!err?.response) {
         setErrMsg('No server response')
-      } else if (err.res?.status === 400) {
+      } else if (err.response?.status === 400) {
         setErrMsg('Missing Username or Password')
-      } else if (err.res?.status === 401) {
+      } else if (err.response?.status === 401) {
         setErrMsg('Unauthorized')
       } else {
         setErrMsg('Login failed')
@@ -59,6 +61,9 @@ const Login = () => {
         <section>
           <h1>You are logged in!</h1>
           <br />
+          <p>User: {auth.loggedUser}</p>
+          <p>Role: {auth.role}</p>
+          <p>Token: {auth.accessToken}</p>
           <p>
             <a href="/">Go to home</a>
           </p>
