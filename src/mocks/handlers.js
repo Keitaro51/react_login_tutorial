@@ -13,7 +13,7 @@ export const handlers = [
         ctx.status(200),
         ctx.json({
           user: registeredUser.user,
-          role: registeredUser.role,
+          roles: registeredUser.roles,
           accessToken: Math.random(),
         })
       )

@@ -1,12 +1,17 @@
 export const mockDb = [
   {
-    user: 'test',
+    user: 'jane',
     pwd: '123',
-    role: 'admin',
+    roles: ['user', 'admin'],
   },
   {
     user: 'john',
     pwd: '456',
-    role: 'editor',
+    roles: ['user', 'editor'],
+  },
+  {
+    user: 'kevin',
+    pwd: '789',
+    roles: ['user'],
   },
 ]
